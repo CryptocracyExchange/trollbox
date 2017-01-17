@@ -9,9 +9,9 @@ dependencies:
     # - [ "type -p eslint" == "eslint not found" ] && npm install -g eslint
     - npm install --dev
 
-test:
-  override:
-    - npm run test
+# test:
+#   override:
+#     - npm run test
 #         environment:
 #           MOCHA_FILE: $CIRCLE_TEST_REPORTS/junit/test-results.xml
 
