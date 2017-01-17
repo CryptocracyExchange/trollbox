@@ -1,0 +1,17 @@
+{
+  "extends": "airbnb",
+  "plugins": [
+    "mocha"
+  ],
+  "rules": {
+    "mocha/no-exclusive-tests": "error",
+    "no-underscore-dangle": "off",
+    "func-names": "off",
+    "comma-dangle": "off",
+    "prefer-arrow-callback": "off" 
+  },
+  "env": {
+    "node": true,
+    "mocha": true
+  }
+}

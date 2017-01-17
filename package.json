@@ -1,0 +1,38 @@
+{
+  "name": "trollbox",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./src",
+  "scripts": {
+    "start-dev": "NODE_ENV=dev nodemon ./src/index.js",
+    "start-prod": "NODE_ENV=prod node ./src/index.js",
+    "lint": "eslint ./src/ ./public/scripts/",
+    "mocha": "mocha ./test/*.spec.js",
+    "test": "npm run mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CryptocracyExchange/trollbox.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/CryptocracyExchange/trollbox/issues"
+  },
+  "homepage": "https://github.com/CryptocracyExchange/trollbox#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "deepstream.io": "^2.1.2",
+    "eslint-config-airbnb": "^13.0.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^2.2.3",
+    "eslint-plugin-mocha": "^4.8.0",
+    "eslint-plugin-react": "^6.8.0",
+    "mocha": "^3.2.0",
+    "nodemon": "^1.11.0",
+    "sinon": "^1.17.7"
+  },
+  "dependencies": {
+    "deepstream.io-client-js": "^2.1.1"
+  }
+}
