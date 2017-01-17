@@ -51,6 +51,23 @@ describe('Trollbox Provider', () => {
     expect(provider._deepstreamClient.hasListeners('trollbox-create-message')).to.be.true;
   });
 
+  it('calls the callback in subscribe for each new event', (done) => {
+    const callback = sinon.spy(() => {
+      if (callback.callCount === 3) {
+        done();
+      }
+    });
+    provider._deepstreamClient.record
+      .getList('trollbox-messages')
+      .whenReady((messageList) => {
+        messageList.subscribe(callback);
+    });
+
+    provider._deepstreamClient.emit('trollbox-create-message', {userID: 'testuser', content: 'Test message.'});
+    provider._deepstreamClient.emit('trollbox-create-message', {userID: 'testuser', content: 'Test message.'});
+    provider._deepstreamClient.emit('trollbox-create-message', {userID: 'testuser', content: 'Test message.'});
+  });
+
   it('creates a new message on trollbox-create-message events', (done) => {
     provider._deepstreamClient.record
       .getList('trollbox-messages')
