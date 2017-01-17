@@ -14,7 +14,11 @@ const trollbox = new TrollboxProvider({
     role: process.env.DEEPSTREAM_AUTH_ROLE,
     username: process.env.DEEPSTREAM_AUTH_USERNAME,
     password: process.env.DEEPSTREAM_AUTH_PASSWORD
-  } : {}
+  } : {
+    role: 'provider',
+    username: 'trollbox-service',
+    password: '12345'
+  }
 });
 
 trollbox.start();

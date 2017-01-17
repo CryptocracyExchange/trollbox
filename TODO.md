@@ -1,12 +1,4 @@
 Troll Box TODO
-- Service
-  - Create listener for message-new events
-  - On message-new event, create new message record (messages/uid) with data:
-  {
-    userID: ,
-    content: ,
-    timeStamp: 
-  }
 - Front-end
   - Input box for new messages
   - Submit button for submitting new message

@@ -68,12 +68,32 @@ Provider.prototype._onDeepstreamLogin = function (success, error, message) {
 };
 
 Provider.prototype._ready = function () {
-
+  this._createNewMessageListener();
   this.log('Provider ready', 1);
   this.isReady = true;
   this.emit('ready');
 };
 
-
+Provider.prototype._createNewMessageListener = function () {
+  this._deepstreamClient.on('trollbox-create-message', (messageData) => {
+    this._deepstreamClient.record.getList('trollbox-messages')
+      .whenReady((messageList) => {
+        this._deepstreamClient.record
+          .getRecord(`trollbox/${this._deepstreamClient.getUid()}`)
+          .whenReady((newMessageRecord) => {
+            newMessageRecord.set({
+              userID: messageData.userID,
+              content: messageData.content,
+              createdAt: Date.now()
+            }, (err) => {
+              if (err) {
+                this.log('Error creating message.')
+              }
+              messageList.addEntry(newMessageRecord.name);
+            });
+          });
+      })
+  });
+};
 
 module.exports = Provider;
