@@ -48,7 +48,9 @@ describe('Trollbox Provider', () => {
   });
 
   it('creates a listener for trollbox-create-message events', () => {
-    expect(provider._deepstreamClient.hasListeners('trollbox-create-message')).to.be.true;
+    provider._deepstreamClient.event.listen('trollbox-create-message', (eventName, isSubscribed, response) => {
+      expect(isSubscribed).to.be.true;
+    })
   });
 
   it('calls the callback in subscribe for each new event', (done) => {
@@ -63,9 +65,9 @@ describe('Trollbox Provider', () => {
         messageList.subscribe(callback);
     });
 
-    provider._deepstreamClient.emit('trollbox-create-message', {userID: 'testuser', content: 'Test message.'});
-    provider._deepstreamClient.emit('trollbox-create-message', {userID: 'testuser', content: 'Test message.'});
-    provider._deepstreamClient.emit('trollbox-create-message', {userID: 'testuser', content: 'Test message.'});
+    provider._deepstreamClient.event.emit('trollbox-create-message', {userID: 'testuser', content: 'Test message.'});
+    provider._deepstreamClient.event.emit('trollbox-create-message', {userID: 'testuser', content: 'Test message.'});
+    provider._deepstreamClient.event.emit('trollbox-create-message', {userID: 'testuser', content: 'Test message.'});
   });
 
   it('creates a new message on trollbox-create-message events', (done) => {
@@ -81,7 +83,7 @@ describe('Trollbox Provider', () => {
           })
         });
     });
-    provider._deepstreamClient.emit('trollbox-create-message', {userID: 'testuser', content: 'Test message.'});
+    provider._deepstreamClient.event.emit('trollbox-create-message', {userID: 'testuser', content: 'Test message.'});
   });
 
   it('cleans up', (done) => {

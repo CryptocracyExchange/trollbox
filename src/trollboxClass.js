@@ -75,12 +75,13 @@ Provider.prototype._ready = function () {
 };
 
 Provider.prototype._createNewMessageListener = function () {
-  this._deepstreamClient.on('trollbox-create-message', (messageData) => {
+  this._deepstreamClient.event.subscribe('trollbox-create-message', (messageData) => {
     this._deepstreamClient.record.getList('trollbox-messages')
       .whenReady((messageList) => {
         this._deepstreamClient.record
           .getRecord(`trollbox/${this._deepstreamClient.getUid()}`)
           .whenReady((newMessageRecord) => {
+            // console.log(newMessageRecord);
             newMessageRecord.set({
               userID: messageData.userID,
               content: messageData.content,
