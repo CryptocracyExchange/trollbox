@@ -8,7 +8,7 @@ const Provider = function (config) {
   this._config = config;
   this._logLevel = config.logLevel !== undefined ? config.logLevel : 1;
   this._deepstreamClient = null;
-  this._webhookCBURL = config.webhookCallbackURL;
+
   providerContext = this;
 };
 
@@ -76,25 +76,28 @@ Provider.prototype._ready = function () {
 
 Provider.prototype._createNewMessageListener = function () {
   this._deepstreamClient.event.subscribe('trollbox-create-message', (messageData) => {
-    this._deepstreamClient.record.getList('trollbox-messages')
-      .whenReady((messageList) => {
-        this._deepstreamClient.record
-          .getRecord(`trollbox/${this._deepstreamClient.getUid()}`)
-          .whenReady((newMessageRecord) => {
-            // console.log(newMessageRecord);
-            newMessageRecord.set({
-              userID: messageData.userID,
-              content: messageData.content,
-              createdAt: Date.now()
-            }, (err) => {
-              if (err) {
-                this.log('Error creating message.')
-              }
-              messageList.addEntry(newMessageRecord.name);
-            });
-          });
-      })
+    this._createNewMessage(messageData);
   });
+};
+
+Provider.prototype._createNewMessage = function (messageData) {
+  const recordName = `trollbox/${this._deepstreamClient.getUid()}`;
+  const newMessage = this._deepstreamClient.record.getRecord(recordName);
+  newMessage.whenReady((messageRecord) => {
+    newMessage.set({
+      userID: messageData.userID,
+      content: messageData.content,
+      createdAt: Date.now()
+    });
+    this._addMessageToList(messageRecord.name);
+  })
+  newMessage.discard();
+}
+
+Provider.prototype._addMessageToList = function (recordName) {
+  const messageList = this._deepstreamClient.record.getList('trollbox-messages');
+  messageList.addEntry(recordName);
+  messageList.discard();
 };
 
 module.exports = Provider;

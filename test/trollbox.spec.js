@@ -55,6 +55,7 @@ describe('Trollbox Provider', () => {
 
   it('calls the callback in subscribe for each new event', (done) => {
     const callback = sinon.spy(() => {
+      console.log('spy called');
       if (callback.callCount === 3) {
         done();
       }
